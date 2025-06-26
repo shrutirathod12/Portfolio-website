@@ -5,8 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Github, ExternalLink } from 'lucide-react';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import RecipeGenerator from '@/components/recipe-generator';
 import { MotionDiv } from '@/components/motion-div';
 
 const projects = [
@@ -75,7 +73,6 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px] md:max-w-lg glassmorphism">
-                <RecipeGenerator />
               </DialogContent>
             </Dialog>
           ) : (
