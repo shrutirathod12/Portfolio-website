@@ -18,7 +18,7 @@ const projects = [
     isAiDemo: true,
   },
   {
-    title: 'grphiacl password to avoid sholder surfing',
+    title: 'grphical password to avoid sholder surfing',
     description: 'A secure authentication system that uses images and patterns instead of traditional text-based passwords.',
     tags: ['Flask', 'SQLite', 'SHA-256'],
     github: 'https://github.com/shrutirathod12/Graphical-Password-to-avoid-shoulder-surfing',
