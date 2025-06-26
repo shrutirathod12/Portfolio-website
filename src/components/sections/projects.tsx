@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Github, ExternalLink } from 'lucide-react';
 import { MotionDiv } from '@/components/motion-div';
+import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
 
 const projects = [
   {
