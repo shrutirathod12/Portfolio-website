@@ -1,113 +1,117 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Github, ExternalLink } from 'lucide-react';
-import { MotionDiv } from '@/components/motion-div';
-import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
+import { ArrowDown } from 'lucide-react';
 
-const projects = [
-  {
-    title: 'Smart Recipe Generator',
-    description: 'An AI-powered application that generates unique recipes based on user-provided ingredients, leveraging NLP models.',
-    tags: ['Flask', 'NLP', 'Hugging Face', 'AI'],
-    github: 'https://github.com/shrutirathod12/Smart-Recipe-Generator',
-    live: '#',
-    isAiDemo: true,
+const subtitleContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.5,
+      staggerChildren: 0.25,
+    },
   },
-  {
-    title: 'grphiacl password to avoid sholder surfing',
-    description: 'A secure authentication system that uses images and patterns instead of traditional text-based passwords.',
-    tags: ['Flask', 'SQLite', 'SHA-256'],
-    github: 'https://github.com/shrutirathod12/Graphical-Password-to-avoid-shoulder-surfing',
-    live: 'https://graphical-password-to-avoid-shoulder.onrender.com/',
-    isAiDemo: false,
-  },
-  {
-    title: 'YouTube Transcript Summarizer',
-    description: 'A Chrome extension that summarizes long YouTube videos by processing their transcripts, making content more accessible.',
-    tags: ['Chrome Extension', 'JavaScript', 'API'],
-    github: 'https://github.com/shrutirathod12/youtube-transcript-summarizer-chrome-extension',
-    live: 'https://github.com',
-    isAiDemo: false,
-  },
-  {
-    title: 'Image Generation via Stable Diffusion',
-    description: 'Exploring text-to-image synthesis by implementing and experimenting with the Stable Diffusion model using Comfy UI.',
-    tags: ['Stable Diffusion', 'Comfy UI', 'AI'],
-    github: 'https://github.com/shrutirathod12/image-generation-using-stable-diffusion---comfy-UI',
-    live: '#',
-    isAiDemo: false,
-  },
-];
-
-const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
-  return (
-    <Card className="glassmorphism transition-all duration-300 hover:scale-105 hover:border-accent h-full flex flex-col">
-      <CardHeader>
-        <CardTitle className="font-headline">{project.title}</CardTitle>
-        <div className="flex flex-wrap gap-2 pt-2">
-          {project.tags.map(tag => (
-            <Badge key={tag} variant="secondary" className="bg-primary/20 text-primary border-0">{tag}</Badge>
-          ))}
-        </div>
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <CardDescription>{project.description}</CardDescription>
-      </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        {project.github && (
-          <Button asChild variant="ghost">
-            <a href={project.github} target="_blank" rel="noopener noreferrer">
-              <Github className="mr-2 h-4 w-4" /> GitHub
-            </a>
-          </Button>
-        )}
-        {project.live && (
-          project.isAiDemo ? (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="default">
-                  <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] md:max-w-lg glassmorphism">
-              </DialogContent>
-            </Dialog>
-          ) : (
-            <Button asChild variant="default">
-              <a href={project.live!} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-              </a>
-            </Button>
-          )
-        )}
-      </CardFooter>
-    </Card>
-  );
 };
 
-const ProjectsSection = () => {
+const subtitleItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100 } },
+};
+
+const HeroSection = () => {
+  const subtitles = [' Software Developer', 'AI Enthusiast', 'Fullstack Intern'];
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 30;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -30;
+    setRotate({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setRotate({ x: 0, y: 0 });
+  };
+
+  const handleScrollToAbout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const section = document.getElementById('about');
+    if (section) {
+      const offsetTop = section.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
-    <section id="projects" className="py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-6">
-        <MotionDiv>
-          <h2 className="font-headline text-3xl md:text-4xl text-center mb-12">
-            <span className="text-primary">Projects</span>
-          </h2>
-        </MotionDiv>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <MotionDiv key={project.title} delay={index * 0.1} className="h-full">
-              <ProjectCard project={project} />
-            </MotionDiv>
+    <section id="home" className="h-screen flex flex-col md:flex-row items-center justify-center md:justify-around text-center md:text-left p-4 overflow-hidden sticky top-0 animated-gradient-bg">
+      <div className="z-10 flex flex-col items-center md:items-start space-y-8 max-w-lg">
+        <motion.h1
+          className="font-headline text-4xl md:text-5xl lg:text-6xl tracking-tighter hover:scale-105 transition-transform duration-300 ease-in-out text-primary"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0,
+            scale: 1,
+          }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+        >
+          Shruti Rathod
+        </motion.h1>
+
+        <motion.div
+          className="flex flex-wrap justify-center md:justify-start items-center gap-x-3 md:gap-x-4 text-xl md:text-2xl lg:text-3xl font-medium text-primary text-glow"
+          variants={subtitleContainer}
+          initial="hidden"
+          animate="visible"
+        >
+          {subtitles.map((text, i) => (
+            <React.Fragment key={text}>
+              <motion.span variants={subtitleItem} className="inline-block">
+                {text}
+              </motion.span>
+              {i < subtitles.length - 1 && (
+                <motion.span variants={subtitleItem} className="text-accent/50 text-3xl md:text-4xl select-none -translate-y-1">
+                  |
+                </motion.span>
+              )}
+            </React.Fragment>
           ))}
-        </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.8 }}
+        >
+          <Button asChild size="lg" className="mt-4 button-glow">
+            <a href="#about" onClick={handleScrollToAbout}>
+              Explore My Work
+              <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
+            </a>
+          </Button>
+        </motion.div>
+      </div>
+      <div
+        className="w-72 h-72 rounded-xl shadow-[0_10px_20px_hsl(var(--primary)/0.5)] cursor-pointer"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          transform: `perspective(600px) rotateX(${rotate.y}deg) rotateY(${rotate.x}deg)`,
+          transformStyle: 'preserve-3d',
+        }}
+      >
+        <img
+          src="/hero-character.png"
+          alt="Shruti Rathod"
+          className="w-full h-full object-contain rounded-xl"
+        />
       </div>
     </section>
   );
 };
 
-export default ProjectsSection;
+export default HeroSection;
